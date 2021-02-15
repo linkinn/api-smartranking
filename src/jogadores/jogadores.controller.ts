@@ -3,16 +3,18 @@ import { CriarJogadorDTO } from './dtos/criar-jogador.dto';
 import { Jogador } from './interfaces/jogador.interface';
 import { JogadoresService } from './jogadores.service';
 
-@Controller('jogadores')
+@Controller('api/v1/jogadores')
 export class JogadoresController {
   constructor(private readonly jogadoresService: JogadoresService) {}
 
   @Get()
-  consultarTodosJogadores(@Query('email') email: string): Jogador[] | Jogador {
+  async consultarTodosJogadores(
+    @Query('email') email: string,
+  ): Promise<Jogador[] | Jogador> {
     if (email) {
-      return this.jogadoresService.consultarJogadorEmail(email);
+      return await this.jogadoresService.consultarJogadorEmail(email);
     }
-    return this.jogadoresService.consultarTodosJogadores();
+    return await this.jogadoresService.consultarTodosJogadores();
   }
 
   @Post()
